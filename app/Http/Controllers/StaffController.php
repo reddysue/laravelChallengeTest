@@ -3,23 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Services\EmployeeManagement\Staff;
-use Illuminate\Http\Request;
+use App\Http\Utilities\HttpResponseUtility;
 
 class StaffController extends Controller
 {
     protected $staff;
-    
-    public function __construct(Staff $staff)
+    protected $httpResponseUtility;
+
+    public function __construct(Staff $staff, HttpResponseUtility $httpResponseUtility)
     {
         $this->staff = $staff;
+        $this->httpResponseUtility = $httpResponseUtility;
     }
     
     public function payroll()
     {
-        $data = $this->staff->salary();
-    
-        return response()->json([
-            'data' => $data
-        ]);
+        return $this->httpResponseUtility->successResponse(['data'=> $this->staff->salary()]);
     }
 }
